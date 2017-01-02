@@ -77,4 +77,22 @@ class Client{
 		}
 	}
 
+	/**
+	* List the channels the caller has access to.
+	*/
+	public function list_channels() {
+		$response = Request::get( $this->api . 'channels.list' )->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			$groups = array();
+			foreach($response->body->channels as $group){
+				$groups[] = new Channel($group);
+			}
+			return $groups;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
 }
