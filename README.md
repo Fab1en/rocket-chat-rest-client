@@ -45,3 +45,5 @@ if( !$newuser->login(false) ) {
 }
 echo "user {$newuser->nickname} created ({$newuser->id})\n";
 ```
+## Credits
+This REST client uses the excellent [Httpful](http://phphttpclient.com/) PHP library by [Nate Good](https://github.com/nategood) ([github repo is here](https://github.com/nategood/httpful)).
