@@ -12,13 +12,13 @@ define('ROCKET_CHAT_INSTANCE', 'https://my-rocket-chat-instance.example.org');
 ```
 Then, import the files you need (TODO : implement autoloading)
 ```php
-require_once 'RocketChatClient.php';
-require_once 'RocketChatUser.php';
-require_once 'RocketChatGroup.php';
-require_once 'RocketChatChannel.php';
-require_once 'RocketChatSettings.php';
+require_once 'src/RocketChatClient.php';
+require_once 'src/RocketChatUser.php';
+require_once 'src/RocketChatGroup.php';
+require_once 'src/RocketChatChannel.php';
+require_once 'src/RocketChatSettings.php';
 ```
-Finaly, instance the classes you need : 
+Finaly, instance the classes you need :
 ```php
 $api = new \RocketChat\Client();
 echo $api->version(); echo "\n";
