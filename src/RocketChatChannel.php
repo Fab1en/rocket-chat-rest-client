@@ -128,5 +128,24 @@ class Channel extends Client {
 		}
 	}
 
+	/**
+	 * Adds user to channel.
+	 */
+	public function invite( $user ) {
+
+		$userId = is_string($user) ? $user : $user->id;
+
+		$response = Request::post( $this->api . 'channels.invite' )
+			->body(array('roomId' => $this->id, 'userId' => $userId))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
 }
 

@@ -128,5 +128,24 @@ class Group extends Client {
 		}
 	}
 
+	/**
+	 * Adds user to the private group.
+	 */
+	public function invite( $user ) {
+
+		$userId = is_string($user) ? $user : $user->id;
+
+		$response = Request::post( $this->api . 'groups.invite' )
+			->body(array('roomId' => $this->id, 'userId' => $userId))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
 }
 
