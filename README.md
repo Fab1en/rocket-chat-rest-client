@@ -30,7 +30,7 @@ define('REST_API_ROOT', '/api/v1/');
 define('ROCKET_CHAT_INSTANCE', 'https://my-rocket-chat-instance.example.org');
 ```
 
-Finaly, instance the classes you need :
+Finally, instance the classes you need:
 ```php
 $api = new \RocketChat\Client();
 echo $api->version(); echo "\n";
