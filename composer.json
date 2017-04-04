@@ -1,0 +1,8 @@
+{
+    "name": "Fab1en/rocket-chat-rest-client",
+    "description": "Rocket Chat REST API client in PHP.",
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "minimum-stability": "stable"
+}
