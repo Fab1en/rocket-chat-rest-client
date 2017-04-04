@@ -1,7 +1,7 @@
 <?php
 
 namespace RocketChat;
-require_once 'lib/httpful.phar';
+
 use Httpful\Request;
 use RocketChat\Client;
 
@@ -65,7 +65,7 @@ class Settings extends Client {
 
 		foreach($settings as $id => $value){
 			$check_val = $this->get($id);
-			
+
 			if(is_object($value) && is_object($check_val) && $value == $check_val) {
 				// object comparison
 				continue;

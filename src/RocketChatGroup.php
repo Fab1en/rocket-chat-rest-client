@@ -1,7 +1,7 @@
 <?php
 
 namespace RocketChat;
-require_once 'lib/httpful.phar';
+
 use Httpful\Request;
 use RocketChat\Client;
 

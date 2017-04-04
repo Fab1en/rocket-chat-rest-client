@@ -1,7 +1,7 @@
 <?php
 
 namespace RocketChat;
-require_once 'lib/httpful.phar';
+
 use Httpful\Request;
 use RocketChat\Client;
 
@@ -70,7 +70,7 @@ class User extends Client {
 	*/
 	public function create() {
 		$response = Request::post( $this->api . 'users.create' )
-			->body(array( 
+			->body(array(
 				'name' => $this->nickname,
 				'email' => $this->email,
 				'username' => $this->username,
