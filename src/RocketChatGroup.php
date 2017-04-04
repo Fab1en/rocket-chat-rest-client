@@ -110,6 +110,22 @@ class Group extends Client {
 	}
 
 	/**
+	* Deletes the private group.
+	*/
+	public function delete(){
+		$response = Request::post( $this->api . 'groups.delete' )
+			->body(array('roomId' => $this->id))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
+	/**
 	* Removes a user from the private group.
 	*/
 	public function kick( $user ){

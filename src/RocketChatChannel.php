@@ -110,6 +110,22 @@ class Channel extends Client {
 	}
 
 	/**
+	* Delete the channel
+	*/
+	public function delete(){
+		$response = Request::post( $this->api . 'channels.delete' )
+			->body(array('roomId' => $this->id))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
+	/**
 	* Removes a user from the channel.
 	*/
 	public function kick( $user ){
@@ -184,5 +200,6 @@ class Channel extends Client {
 			return false;
 		}
 	}
+
 }
 
