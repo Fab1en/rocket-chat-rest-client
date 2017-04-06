@@ -1,7 +1,7 @@
 <?php
 
 namespace RocketChat;
-require_once 'lib/httpful.phar';
+
 use Httpful\Request;
 
 class Client{
@@ -32,7 +32,7 @@ class Client{
 	public function me() {
 		$response = Request::get( $this->api . 'me' )->send();
 
-		if( $response->body->status != 'error' ) { 
+		if( $response->body->status != 'error' ) {
 			if( isset($response->body->success) && $response->body->success == true ) {
 				return $response->body;
 			}
@@ -41,7 +41,7 @@ class Client{
 			return false;
 		}
 	}
-	
+
 	/**
 	* List all of the users and their information.
 	*

@@ -4,5 +4,8 @@
     "autoload": {
         "classmap": ["src/"]
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require": {
+        "nategood/httpful": "*"
+    }
 }

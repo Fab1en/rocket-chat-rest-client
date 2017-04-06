@@ -5,20 +5,32 @@ in PHP, such as WordPress or Drupal.
 
 ## How to use
 
-First, you have to define some constants to point to your Rocket Chat instance
+This Rocket Chat client is installed via [Composer](http://getcomposer.org/). To install, simply add it
+to your `composer.json` file:
+
+```json
+{
+    "require": {
+        "fab1en/rocket-chat-rest-client": "dev-master"
+    }
+}
+```
+
+And run composer to update your dependencies:
+
+    $ curl -s http://getcomposer.org/installer | php
+    $ php composer.phar update
+
+Then, import the `autoload.php` from your `vendor` folder.
+
+After this, you have to define some constants to point to your Rocket Chat instance
+
 ```php
 define('REST_API_ROOT', '/api/v1/');
 define('ROCKET_CHAT_INSTANCE', 'https://my-rocket-chat-instance.example.org');
 ```
-Then, import the files you need (TODO : implement autoloading)
-```php
-require_once 'src/RocketChatClient.php';
-require_once 'src/RocketChatUser.php';
-require_once 'src/RocketChatGroup.php';
-require_once 'src/RocketChatChannel.php';
-require_once 'src/RocketChatSettings.php';
-```
-Finaly, instance the classes you need :
+
+Finally, instance the classes you need:
 ```php
 $api = new \RocketChat\Client();
 echo $api->version(); echo "\n";

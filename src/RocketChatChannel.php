@@ -1,7 +1,7 @@
 <?php
 
 namespace RocketChat;
-require_once 'lib/httpful.phar';
+
 use Httpful\Request;
 use RocketChat\Client;
 
@@ -117,6 +117,25 @@ class Channel extends Client {
 		$userId = is_string($user) ? $user : $user->id;
 
 		$response = Request::post( $this->api . 'channels.kick' )
+			->body(array('roomId' => $this->id, 'userId' => $userId))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
+	/**
+	 * Adds user to channel.
+	 */
+	public function invite( $user ) {
+
+		$userId = is_string($user) ? $user : $user->id;
+
+		$response = Request::post( $this->api . 'channels.invite' )
 			->body(array('roomId' => $this->id, 'userId' => $userId))
 			->send();
 
