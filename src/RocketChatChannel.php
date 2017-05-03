@@ -147,5 +147,42 @@ class Channel extends Client {
 		}
 	}
 
+	/**
+	 * Adds owner to the channel.
+	 */
+	public function addOwner( $user ) {
+
+		$userId = is_string($user) ? $user : $user->id;
+
+		$response = Request::post( $this->api . 'channels.addOwner' )
+			->body(array('roomId' => $this->id, 'userId' => $userId))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
+	/**
+	 * Removes owner of the channel.
+	 */
+	public function removeOwner( $user ) {
+
+		$userId = is_string($user) ? $user : $user->id;
+
+		$response = Request::post( $this->api . 'channels.removeOwner' )
+			->body(array('roomId' => $this->id, 'userId' => $userId))
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
 }
 
