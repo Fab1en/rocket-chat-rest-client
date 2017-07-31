@@ -11,7 +11,8 @@ class User extends Client {
 	public $id;
 	public $nickname;
 	public $email;
-
+	public $customFields;
+  
 	public function __construct($username, $password, $fields = array()){
 		parent::__construct();
 		$this->username = $username;
@@ -21,6 +22,9 @@ class User extends Client {
 		}
 		if( isset($fields['email']) ) {
 			$this->email = $fields['email'];
+		}
+		if( isset($fields['customFields']) ) {
+			$this->customFields = $fields['customFields'];
 		}
 	}
 
@@ -67,14 +71,40 @@ class User extends Client {
 
 	/**
 	* Create a new user.
+	* for customFields we have to send json-object so we use json_decode with inner json_encode
 	*/
 	public function create() {
-		$response = Request::post( $this->api . 'users.create' )
-			->body(array(
+		$bodydata=array(
 				'name' => $this->nickname,
 				'email' => $this->email,
 				'username' => $this->username,
 				'password' => $this->password,
+		);
+		if (isset($this->customFields))
+		   $bodydata['customFields'] = json_decode(json_encode($this->customFields), JSON_FORCE_OBJECT);
+		$response = Request::post( $this->api . 'users.create' )
+			->body($bodydata)
+			->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			$this->id = $response->body->user->_id;
+			return $response->body->user;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
+
+	/**
+	* Update a user.
+	* for data we have to send json-object so we use json_decode with inner json_encode
+	* using the attributes of this class as update-values
+	*/
+	public function update() {
+		$response = Request::post( $this->api . 'users.update' )
+			->body(array(
+				'userId' => $this->id,
+				'data' => json_decode(json_encode(array('name' => $this->nickname,'email'=>$this->email,'username'=>$this->username,'password'=>$this->password), JSON_FORCE_OBJECT)),
 			))
 			->send();
 
