@@ -18,6 +18,16 @@ class Client{
 		Request::ini( $tmp );
 	}
 
+	protected function createExceptionFromResponse($response, $prefix){
+        if(!empty($response->body->error)){
+            return new \Exception("$prefix: ".$response->body->error);
+        } else if(!empty($response->body)){
+            return new \Exception("$prefix: ".$response->body);
+        } else {
+            return new \Exception("$prefix: unknown error!");
+        }
+    }
+
 	/**
 	* Get version information. This simple method requires no authentication.
 	*/
