@@ -30,7 +30,7 @@ class Settings extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return $response->body->value;
 		} else {
-			echo( $response->body->error . "\n" );
+		    throw $this->createExceptionFromResponse($response, "Could not get setting $id");
 		}
 	}
 
@@ -45,7 +45,7 @@ class Settings extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
+		    throw $this->createExceptionFromResponse($response, "Could not update setting $id to $value");
 		}
 	}
 
@@ -59,8 +59,7 @@ class Settings extends Client {
 		fclose($f);
 
 		if( $settings === null ) {
-			echo "Erreur de décodage json pour le fichier {$this->file}\n";
-			return;
+		    throw new \Exception("Not possible to decode local settings file: $this->file");
 		}
 
 		foreach($settings as $id => $value){
