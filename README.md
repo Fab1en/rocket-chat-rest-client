@@ -68,3 +68,11 @@ $channel->postMessage('Hello world');
 ```
 ## Credits
 This REST client uses the excellent [Httpful](http://phphttpclient.com/) PHP library by [Nate Good](https://github.com/nategood) ([github repo is here](https://github.com/nategood/httpful)).
+
+## WebHook
+```
+$WebHook= new \RocketChat\WebHook();
+
+if ($WebHook->postData['user_name']!="rocket.cat")
+	$WebHook->sendmessage("Echo: ".$WebHook->postData['text']);
+```
