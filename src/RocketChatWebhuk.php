@@ -2,12 +2,9 @@
 
 namespace RocketChat;
 
-#use Httpful\Request;
-#use RocketChat\Client;
-
 class WebHook extends Client {
-	public $text;
-	public $postData;
+	public $text; // Text message as array 
+	public $postData; // Full message as array
 	/*
   array (
     'token' => 'token',
@@ -22,29 +19,32 @@ class WebHook extends Client {
     'isEdited' => true,
   )
 	 */
-	
+
 	function __construct(){
 		$this->postData=json_decode(file_get_contents('php://input'), true);
 		if (isset($this->postData['text']))
 			$this->text = explode ("\n",$this->postData['text']);
 	}
+
 	public function getChannelId()
 	{
 		return $this->postData['channel_id'];
 	}
-	
-	public function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f formfeed)
-    $escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c");
-    $replacements = array("\\\\", "\\/", "\\\"", "\\n", "\\r", "\\t", "\\f", "\\b");
-    $result = str_replace($escapers, $replacements, $value);
-    return $result;
-}
-	public function sendmessage($text){
-	    // Send message and EXIT script;
-	$text_valid=$this->escapeJsonString($text);
 
-	$data = '{
-  "text": "'.$text_valid.'"}';
+	public function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f formfeed)
+		$escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c");
+		$replacements = array("\\\\", "\\/", "\\\"", "\\n", "\\r", "\\t", "\\f", "\\b");
+		$result = str_replace($escapers, $replacements, $value);
+		return $result;
+	}
+
+    /**
+     * Send message via WebHook
+     */
+	public function sendmessage($text){
+		// Send message and EXIT script;
+		$text_valid=$this->escapeJsonString($text);
+		$data = '{"text": "'.$text_valid.'"}';
 /*  "attachments": [
     {
       "title": "'.$text.'"
@@ -60,9 +60,9 @@ class WebHook extends Client {
   ]
 }';
 */
-	header('Content-Type: application/json');
-	echo $data;
-	exit;
-    }
+		header('Content-Type: application/json');
+		echo $data;
+		exit;
+	}
 }
 
