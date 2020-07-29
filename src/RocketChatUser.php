@@ -41,7 +41,7 @@ class User extends Client {
 				Request::ini( $tmp );
 			}
 			$this->id = $response->body->data->userId;
-			return true;
+			return $response->body->data;
 		} else {
 			echo( $response->body->message . "\n" );
 			return false;
