@@ -102,4 +102,17 @@ class Client{
 		}
 	}
 
+	/**
+	* Get message by msgId. Need access for user to room or chat.
+	*/
+	public function getMessage($msgId) {
+		$response = Request::get( $this->api . 'chat.getMessage?msgId='.$msgId )->send();
+
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return $response->body->message;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
 }

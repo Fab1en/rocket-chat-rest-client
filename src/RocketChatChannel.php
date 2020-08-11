@@ -200,6 +200,22 @@ class Channel extends Client {
 			return false;
 		}
 	}
+	
+	/**
+	 * Clean history of the channel.
+	 */
+	public function clearHistory($BEFORE_DAY=1){
 
+		$response = Request::post( $this->api . 'rooms.cleanHistory' )
+			->body(array('roomId' => $this->id, "latest"=> date('Y-m-d',strtotime( $BEFORE_DAY.' days' ))."T".date('H:i:s').".304Z", "oldest"=> "2000-01-01T00:00:00.001Z"))
+			->send();
+		
+		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
+			return true;
+		} else {
+			echo( $response->body->error . "\n" );
+			return false;
+		}
+	}
 }
 
