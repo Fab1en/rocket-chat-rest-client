@@ -51,8 +51,7 @@ class Channel extends Client {
 			$this->id = $response->body->channel->_id;
 			return $response->body->channel;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+		    throw $this->createExceptionFromResponse($response, "Could not create new channel");
 		}
 	}
 
@@ -66,8 +65,7 @@ class Channel extends Client {
 			$this->id = $response->body->channel->_id;
 			return $response->body;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not get channel info");
 		}
 	}
 
@@ -87,9 +85,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			if( isset($response->body->error) )	echo( $response->body->error . "\n" );
-			else if( isset($response->body->message) )	echo( $response->body->message . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not post message to channel $this->name");
 		}
 	}
 
@@ -104,8 +100,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not remove channel from the user’s list of channels");
 		}
 	}
 
@@ -120,8 +115,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not delete channel $this->name");
 		}
 	}
 
@@ -139,8 +133,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not kick user $user from channel $this->name");
 		}
 	}
 
@@ -158,8 +151,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not invite user $user to channel $this->name");
 		}
 	}
 
@@ -177,8 +169,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not add user $user as owner of channel $this->name");
 		}
 	}
 
@@ -196,8 +187,7 @@ class Channel extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not kick user $user from chanel $this->name");
 		}
 	}
 

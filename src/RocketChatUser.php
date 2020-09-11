@@ -6,6 +6,7 @@ use Httpful\Request;
 use RocketChat\Client;
 
 class User extends Client {
+
 	public $username;
 	private $password;
 	public $id;
@@ -43,8 +44,7 @@ class User extends Client {
 			$this->id = $response->body->data->userId;
 			return true;
 		} else {
-			echo( $response->body->message . "\n" );
-			return false;
+			throw $this->createExceptionFromResponse($response, "Could not authenticate with the REST API");
 		}
 	}
 
@@ -60,8 +60,7 @@ class User extends Client {
 			$this->email = $response->body->user->emails[0]->address;
 			return $response->body;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+			throw $this->createExceptionFromResponse($response, "Could not get user's information");
 		}
 	}
 
@@ -82,8 +81,7 @@ class User extends Client {
 			$this->id = $response->body->user->_id;
 			return $response->body->user;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not create new user");
 		}
 	}
 
@@ -103,8 +101,7 @@ class User extends Client {
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return true;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not delete user");
 		}
 	}
 }

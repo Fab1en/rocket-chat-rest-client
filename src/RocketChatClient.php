@@ -25,6 +25,16 @@ class Client{
 		Request::ini( $tmp );
 	}
 
+	protected function createExceptionFromResponse($response, $prefix){
+        if(!empty($response->body->error)){
+            return new \Exception("$prefix: ".$response->body->error);
+        } else if(!empty($response->body)){
+            return new \Exception("$prefix: ".$response->body);
+        } else {
+            return new \Exception("$prefix: unknown error!");
+        }
+    }
+
 	/**
 	* Get version information. This simple method requires no authentication.
 	*/
@@ -43,10 +53,8 @@ class Client{
 			if( isset($response->body->success) && $response->body->success == true ) {
 				return $response->body;
 			}
-		} else {
-			echo( $response->body->message . "\n" );
-			return false;
 		}
+        throw $this->createExceptionFromResponse($response, "Could not list channels");
 	}
 
 	/**
@@ -61,8 +69,7 @@ class Client{
 		if( $response->code == 200 && isset($response->body->success) && $response->body->success == true ) {
 			return $response->body->users;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not list users");
 		}
 	}
 
@@ -79,8 +86,7 @@ class Client{
 			}
 			return $groups;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not list groups");
 		}
 	}
 
@@ -97,8 +103,7 @@ class Client{
 			}
 			return $groups;
 		} else {
-			echo( $response->body->error . "\n" );
-			return false;
+            throw $this->createExceptionFromResponse($response, "Could not list channels");
 		}
 	}
 
